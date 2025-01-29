@@ -1,6 +1,5 @@
 package library.library.controllers;
 
-import library.library.persistence.repositorio.UsuarioRepository;
 import library.library.request.CreateTokenDTO;
 import library.library.request.CreateUserDTO;
 import library.library.security.jwt.JwtUtils;
@@ -15,30 +14,40 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * Clase controladora para la gestión del Login
+ * */
 @Controller
 @RequestMapping("library/auth")
+@PreAuthorize("permitAll()")
 public class LoginController {
 
+    //Se encarga de contruir las ligazones entre los distintos elementos
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    //Se encarga de contruir las ligazones entre los distintos elementos
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    //Se encarga de contruir las ligazones entre los distintos elementos
     @Autowired
     private JwtUtils jwtUtils;
 
-    @Autowired
-    private UsuarioRepository userRepository;
 
     CreateUserDTO userDTO;
 
     public LoginController(){
         this.userDTO = new CreateUserDTO();
-
     }
 
-
+    /**
+     * Método que gestiona la autenticación de los usuarios
+     * Autorizado para todos los usuarios
+     * @Param recibe un Json con usuario y contraseña
+     * @Return token de autorización
+     * */
     @PostMapping("/login")
     public ResponseEntity<?> auth(@RequestBody CreateUserDTO userDTO){
 
@@ -51,7 +60,6 @@ public class LoginController {
 
             //2 validar el usuario en la BBDD
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userDTO.getUsername());
-            System.out.println(userDetails.getUsername());
 
             //3 generar el token
             String jwt = this.jwtUtils.generateAccessToken(userDetails);
@@ -61,7 +69,6 @@ public class LoginController {
             this.userDTO.setUsername(userDTO.getUsername());
             this.userDTO.setEmail(userDTO.getEmail());
 
-            System.out.println(jwt);
             return new ResponseEntity<CreateTokenDTO>(tokenDTO, HttpStatus.OK);
 
         }catch(Exception e){
@@ -69,21 +76,14 @@ public class LoginController {
         }
     }
 
-//    @GetMapping("/user")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public String getUser(){
-//        System.out.println("solicitud ususario");
-//        System.out.println(this.userDTO.toString());
-//        //return this.userDTO;
-//        return "Jorge";
-//    }
-
+    /**
+     * Método que devuelve el usuario autenticado
+     * Autorizado para todos los usuarios
+     * @Return el usuario autenticado
+     * */
     @GetMapping("/user")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<CreateUserDTO> getUser(){
-        System.out.println("solicitud ususario");
-        System.out.println(this.userDTO.toString());
-        //return this.userDTO;
         return ResponseEntity.ok(this.userDTO);
     }
 

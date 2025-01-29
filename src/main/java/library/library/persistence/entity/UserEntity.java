@@ -20,7 +20,7 @@ public class UserEntity {
     //Campos que hay que mapear para que Spring Security los entienda
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank
     private String username;
@@ -37,12 +37,12 @@ public class UserEntity {
         FetchType.EAGER cuando llama un usuario carga todos sus datos
         targetEntity, con qué entidad establece la relación
         CascadeType.ALL cuando guarda un usuario en la tabla, guarda todos los roles asociados
-        CascadeTyp.PESIST, al ingresar datos en la bbdd añade los roles de una vez, pero al
+        CascadeType.PESIST, al ingresar datos en la bbdd añade los roles de una vez, pero al
         eliminar el usuario no elimina los roles de la tabla roles
     */
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = RoleEntity.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "usuario_roles",
-            joinColumns = @JoinColumn(name = "ususario_id"),
+            joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles;
@@ -50,7 +50,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String username, String password, String email, Set<RoleEntity> roles) {
+    public UserEntity(int id, String username, String password, String email, Set<RoleEntity> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -58,11 +58,11 @@ public class UserEntity {
         this.roles = roles;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -11,152 +11,158 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ * Clase controladora para la gestión de los accesos al servicio
+* */
 @CrossOrigin("*" )
 @RestController
 @RequestMapping("library")
-//@PreAuthorize("denyAll()")
+@PreAuthorize("denyAll()")
 public class LibreriaController {
 
+    //Se encarga de contruir las ligazones entre los distintos elementos
     @Autowired
     LibreriaService servicio;
 
-
+    /**
+     * Método que solicita al servicio la lista de socios
+     * Autorizado para todos los usuarios
+     * @Return lista de socios actualizada
+     * */
     @GetMapping("/socios")
     @PreAuthorize("permitAll()")
     public List<Socio> getSocios(){
         return servicio.getSocios();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    /**
+     * Método que solicita al servicio añadir un socio
+     * Autorizado para todos los usuarios
+     * @Param recibe un Json
+     * @Return lista de socios actualizada
+     * */
+    @ResponseStatus(HttpStatus.CREATED) //Responde 201 si se ha creado correctamente
     @PostMapping("/socios")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Socio> addSocios(@RequestBody Socio socio){ //convierte el parámetro (que viene en JSON) a objeto java
+    @PreAuthorize("permitAll()")
+    public List<Socio> addSocios(@RequestBody Socio socio){ //Convierte el parámetro (JSON) a objeto Java
         return servicio.createSocio(socio);
     }
 
+    /**
+     * Método que solicita al servicio modificar un socio
+     * Autorizado para los usuarios ADMIN y USER
+     * @Param recibe un Json
+     * @Return lista de socios actualizada
+     * */
     @PutMapping("/socios")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public List<Socio> putSocio(@RequestBody Socio socio){
+    public List<Socio> putSocio(@RequestBody Socio socio){ //Convierte el parámetro (JSON) a objeto Java
         return servicio.updateSocio(socio);
     }
 
-//    @DeleteMapping("/socios/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public Socio deleteSocio(@PathVariable long id){
-//        return servicio.deleteSocio(id);
-//    }
-
+    /**
+     * Método que solicita al servicio eliminar un socio
+     * Autorizado para los usuarios ADMIN
+     * @Param recibe un Long con el valor del id del socio a eliminar
+     * @Return lista de socios actualizada
+     * */
     @DeleteMapping("/socios/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public List<Socio> deleteSocio(@PathVariable long id){
         return servicio.deleteSocio(id);
     }
 
+    /**
+     * Método que solicita al servicio la lista de libros
+     * Autorizado para todos los usuarios
+     * @Return lista de libros actualizada
+     * */
     @GetMapping("/libros")
     @PreAuthorize("permitAll()")
     public List<Libro> getLibros(){
         return servicio.getLibros();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    /**
+     * Método que solicita al servicio añadir un libro
+     * Autorizado para todos los usuarios
+     * @Param recibe un Json
+     * @Return lista de libros actualizada
+     * */
+    @ResponseStatus(HttpStatus.CREATED) //Responde 201 si se ha creado correctamente
     @PostMapping("/libros")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Libro> addLibros(@RequestBody Libro libro){
+    @PreAuthorize("permitAll()")
+    public List<Libro> addLibros(@RequestBody Libro libro){ //Convierte el parámetro (JSON) a objeto Java
         return servicio.createLibro(libro);
 
     }
 
+    /**
+     * Método que solicita al servicio modificar un libro
+     * Autorizado para los usuarios ADMIN y USER
+     * @Param recibe un Json
+     * @Return lista de libros actualizada
+     * */
     @PutMapping("/libros")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public List<Libro> putLibro(@RequestBody Libro libro){
+    public List<Libro> putLibro(@RequestBody Libro libro){ //Convierte el parámetro (JSON) a objeto Java
         return servicio.updateLibro(libro);
     }
 
+    /**
+     * Método que solicita al servicio eliminar un libro
+     * Autorizado para los usuarios ADMIN
+     * @Param recibe un Long con el valor del id del libro a eliminar
+     * @Return lista de libros actualizada
+     * */
     @DeleteMapping("/libros/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public List<Libro> deleteLibro(@PathVariable long id){
         return servicio.deleteLibro(id);
     }
 
+    /**
+     * Método que solicita al servicio la lista de alquileres
+     * Autorizado para todos los usuarios
+     * @Return lista de alquileres actualizada
+     * */
     @GetMapping("/alquileres")
     @PreAuthorize("permitAll()")
     public List<Alquiler> getAlquileres(){
         return servicio.getAlquileres();
     }
 
-
-//    @PostMapping("/alquileres")
-//    public String addAlquileres(@RequestBody Alquiler alquiler){
-//
-//        for(Libro l : servicio.getLibros()){
-//
-//            if(l.getId() == alquiler.getIdLibro()){
-//                if(l.isAlquilado())
-//                    return "Este libro no está disponible";
-//                else{
-//                    l.setAlquilado(true);
-//                    alquiler.setVigente(true);
-//                    alquiler.setFecha(new Date().getTime());
-//                    servicio.updateLibro(l);
-//                    servicio.createAlquiler(alquiler);
-//                    return "Alquiler realizado";
-//                }
-//            }
-//
-//        }
-//        return "No se ha encontrado el libro";
-//    }
-
-    @ResponseStatus(HttpStatus.CREATED)
+    /**
+     * Método que solicita al servicio añadir un alquiler
+     * Autorizado para todos los usuarios
+     * @Param recibe un Json
+     * @Return lista de alquileres actualizada
+     * */
+    @ResponseStatus(HttpStatus.CREATED) //Responde 201 si se ha creado correctamente
     @PostMapping("/alquileres")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Object> addAlquileres(@RequestBody Alquiler alquiler){
+    @PreAuthorize("permitAll()")
+    public List<Object> addAlquileres(@RequestBody Alquiler alquiler){ //Convierte el parámetro (JSON) a objeto Java
         return servicio.createAlquiler(alquiler);
     }
 
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @PostMapping("/alquileres")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public Alquiler addAlquileres(@RequestBody Alquiler alquiler){
-//        System.out.println("paso por método Controller");
-//        return servicio.createAlquiler(alquiler);
-//    }
-
-
-
-//    @PutMapping("/alquileres")
-//    public String devolverLibro(@PathVariable Long id){
-//        for(Alquiler a : servicio.getAlquileres()){
-//            if(a.getId() == id){
-//                for(Libro l : servicio.getLibros()){
-//                    if(l.getId() == a.getIdLibro()){
-//                        if(!l.isAlquilado()){
-//                            return "Este libro no estaba alquilado";
-//                        } else {
-//                            l.setAlquilado(false);
-//                            servicio.updateLibro(l);
-//                            a.setVigente(false);
-//                            a.setFechaDevolucion(new Date().getTime());
-//                            servicio.updateAlquiler(a);
-//                            return "Devolución realizada";
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return "El alquiler introducido no tiene coincidencias";
-//    }
-
+    /**
+     * Método que solicita al servicio devolver un libro
+     * Autorizado para los usuarios ADMIN y USER
+     * @Param recibe un Json
+     * @Return lista de alquileres actualizada
+     * */
     @PutMapping("/alquileres")
-    //@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    //@PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("permitAll()")
-    public List<Object> devolverLibro(@RequestBody Alquiler alquiler) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public List<Object> devolverLibro(@RequestBody Alquiler alquiler) { //Convierte el parámetro (JSON) a objeto Java
         return servicio.updateAlquiler(alquiler);
     }
 
-
+    /**
+     * Método que solicita al servicio eliminar un alquiler
+     * Autorizado para los usuarios ADMIN
+     * @Param recibe un Long con el valor del id del alquiler a eliminar
+     * @Return lista de alquileres actualizada
+     * */
     @DeleteMapping("/alquileres/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public List<Alquiler> deleteAlquiler(@PathVariable long id){

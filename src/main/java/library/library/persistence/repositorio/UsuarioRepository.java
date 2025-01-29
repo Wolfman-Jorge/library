@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-//Hereda de la clase abstracta CrudRepository
+//Hereda de la interfaz JpaRepository
 @Repository
 public interface UsuarioRepository extends JpaRepository<UserEntity, Long> {
 

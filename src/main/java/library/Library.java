@@ -1,7 +1,17 @@
 package library;
 
+import library.library.persistence.entity.RoleEntity;
+import library.library.persistence.entity.RoleEnum;
+import library.library.persistence.entity.UserEntity;
+import library.library.persistence.repositorio.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Set;
 
 
 @SpringBootApplication
@@ -27,6 +37,7 @@ public class Library {
 //	CommandLineRunner init(){
 //		return args -> {
 //			UserEntity userEntity = UserEntity.builder()
+//					.id(1)
 //					.username("jorge")
 //					.password(passwordEncoder.encode("1234"))
 //					.email("jorgeadominguezgonzalez@gmail.com")
@@ -36,6 +47,7 @@ public class Library {
 //					.build();
 //
 //			UserEntity userEntity2 = UserEntity.builder()
+//					.id(2)
 //					.username("pedro")
 //					.password(passwordEncoder.encode("1234"))
 //					.email("pelud_22@hotmail.com")
@@ -45,7 +57,8 @@ public class Library {
 //					.build();
 //
 //			UserEntity userEntity3 = UserEntity.builder()
-//					.username("andrea")
+//					.id(3)
+//					.username("laura")
 //					.email("lauraboveda@gmail.com")
 //					.password(passwordEncoder.encode("1234"))
 //					.roles(Set.of(RoleEntity.builder()

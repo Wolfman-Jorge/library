@@ -2,6 +2,9 @@ package library.library.modelo;
 
 import jakarta.persistence.*;
 
+/**
+ * Clase plantilla para los alquileres
+ * */
 //Registra la entidad
 @Entity
 //Table permite mapear nuestra entidad contra una tabla que tenga el mismo nombre
@@ -10,9 +13,9 @@ public class Alquiler {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long idSocio;
-    private long idLibro;
+    private int id;
+    private int idSocio;
+    private int idLibro;
     private long fecha;
     private boolean vigente;
     private String mostrarVigente;
@@ -21,7 +24,7 @@ public class Alquiler {
     public Alquiler() {
     }
 
-    public Alquiler(long id, long idSocio, long idLibro, long fecha, boolean vigente, String mostrarVigente, long fechaDevolucion) {
+    public Alquiler(int id, int idSocio, int idLibro, long fecha, boolean vigente, String mostrarVigente, long fechaDevolucion) {
         this.id = id;
         this.idSocio = idSocio;
         this.idLibro = idLibro;
@@ -31,27 +34,27 @@ public class Alquiler {
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getIdSocio() {
+    public int getIdSocio() {
         return idSocio;
     }
 
-    public void setIdSocio(long idSocio) {
+    public void setIdSocio(int idSocio) {
         this.idSocio = idSocio;
     }
 
-    public long getIdLibro() {
+    public int getIdLibro() {
         return idLibro;
     }
 
-    public void setIdLibro(long idLibro) {
+    public void setIdLibro(int idLibro) {
         this.idLibro = idLibro;
     }
 
